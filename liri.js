@@ -1,7 +1,7 @@
 var twitter = require("./keys.js");
 var Twitter = require('twitter');
 //console.log(twitter);
-
+var liriName = process.argv[3];
 var client = new Twitter({
   consumer_key: twitter.twitterKeys.consumer_key,
   consumer_secret: twitter.twitterKeys.consumer_secret,
@@ -58,6 +58,35 @@ spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(er
 
 
 
+
+//movie-this
+function movieDisplay(command){
+  var movieUrl = "http://www.omdbapi.com/?t=" + command + "&plot=short&r=json";
+  request(movieUrl, function(err, response, body){
+    var objectString = JSON.parse(body);
+    if(err){
+      console.log(err);
+    } else {
+      console.log("Movie Title: " + objectString.Title);
+      console.log("Year: " + objectString.Year);
+      console.log("Rating: " + objectString.Rated);
+      console.log("Country: " + objectString.Country);
+      console.log("Language: " + objectString.Language);
+      console.log("Plot: " + objectString.Plot);
+      console.log("Actors: " + objectString.Actors);
+    }
+  });
+}
+
+
+var request = require("request");
+//var queryURL = "http://www.omdbapi.com/?t=" + liriName + "&y=&plot=short&r=json";
+
+
+
+
+//movieDisplay(queryURL);
+
 var input = process.argv[2];
 console.log(input);
 switch (input) {
@@ -65,10 +94,10 @@ switch (input) {
       displayTwitterFeed();
       break;
   case 'spotify-this-song':
-    spotifyDisplay();
-    break;
+      spotifyDisplay();
+      break;
   case 'movie-this':
-  //  moviethis();
+      movieDisplay(liriName);
       break;
 
 }
